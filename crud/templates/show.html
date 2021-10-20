@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-6 col-md-1"></div>
+  <div class="col-6 col-md-3">
+      <h2 class="text-center alert alert-info"> Add new user</h2>
+      <form method="post">
+    {% csrf_token %}
+  <p><label for="id_name">Name:</label> <input type="text" name="name" class="form-control form-control-sm" placeholder="Name" maxlength="50" required id="id_name"></p>
+<p><label for="id_email">Email:</label> <input type="text" name="email" class="form-control form-control-sm" placeholder="Email" maxlength="50" required id="id_email"></p>
+<p><label for="inputPassword6">Password:</label> <input type="text" name="password" class="form-control form-control-sm" id="inputPassword6" placeholder="Password" maxlength="50" required></p>
+    <input type="submit" class="btn btn-success" value="Add">
+</form>
+  </div>
+
+
+
+  <div class="col-12 col-md-8">
+
+      {% if da %}
+
+      <h2 class="text-center alert alert-info"> User Details</h2>
+
+      <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Password</th>
+    </tr>
+  </thead>
+
+          {% for k in da %}
+  <tbody>
+    <tr>
+      <th scope="row">{{k.id}}</th>
+      <td>{{ k.name }}</td>
+      <td>{{ k.email }}</td>
+      <td>{{ k.password }}</td>
+      <td><a href="{% url 'edit' k.pk %}" class="btn btn-warning">Edit</a></td>
+      <td>
+          <form action="{% url 'delete' k.pk %}" method="post">
+              {% csrf_token %}
+              <input type="submit" class="btn btn-danger" value="Delete">
+          </form>
+      </td>
+    </tr>
+  </tbody>
+          {% endfor %}
+</table>
+{% else %}
+      <h2 class="text-center alert alert-warning"> No data</h2>
+ {% endif %}
+
+
+
+
+  </div>
+
+</div>
+
+{% endblock %}
